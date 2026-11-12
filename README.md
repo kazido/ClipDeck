@@ -17,6 +17,15 @@ Windows may say **"Windows protected your PC"** because the installer isn't sign
 ClipDeck needs Windows 10 or 11 and [OBS Studio](https://obsproject.com) (free). The first time you open
 ClipDeck, its **Guide** sets OBS up for clipping in a few clicks and gives you a short tour.
 
+## Screenshots
+
+![The library with the Ember theme](docs/screenshots/library-ember.webp)
+
+| | |
+|---|---|
+| ![Filtering clips in the Aurora theme](docs/screenshots/filters-aurora.webp) | ![The library in the Aurora theme](docs/screenshots/library-aurora.webp) |
+| ![Cleanup](docs/screenshots/cleanup.png) | ![Storage](docs/screenshots/storage.png) |
+
 ## What it does
 
 - **Library:** all your clips in one place, with thumbnails, search, filters and sorting. Folders work
