@@ -17,6 +17,11 @@ const STARTED_AT_LOGIN: &str = "--hidden";
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        // Must come first. A second copy of ClipDeck does not start: it hands over to the one that is
+        // already running, which comes to the front.
+        .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
+            tray::show_main_window(app);
+        }))
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_libmpv::init())
