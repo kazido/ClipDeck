@@ -374,8 +374,12 @@ function GamesList({ onChanged }: { onChanged: () => void }) {
               data-hint="Pick the game's program (.exe). ClipDeck then shows its icon, and clips made while it is in front are sorted into this game."
               onClick={async () => {
                 try {
+                  setProblem(null);
                   const file = await pickProgramFile();
-                  if (file) await icons.link(game, file);
+                  if (file) {
+                    await icons.link(game, file);
+                    icons.reload();
+                  }
                 } catch (e) {
                   setProblem(errorMessage(e));
                 }

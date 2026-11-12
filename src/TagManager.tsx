@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { deleteTag, errorMessage, renameTag, setTagColor } from "./api";
 import { TAG_COLORS, tagStyle, useTagColors } from "./TagColors";
 
@@ -14,6 +14,11 @@ export function TagManager({
   onDeleted?: (name: string) => void;
 }) {
   const tags = useTagColors();
+  // Tags added to clips since the app opened are not in the list yet, so look again when this opens.
+  useEffect(() => {
+    tags.reload();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [palette, setPalette] = useState<string | null>(null);
   const [editing, setEditing] = useState<string | null>(null);
   const [name, setName] = useState("");
