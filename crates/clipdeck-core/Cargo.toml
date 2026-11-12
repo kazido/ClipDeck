@@ -1,0 +1,18 @@
+[package]
+name = "clipdeck-core"
+version = "0.1.0"
+edition = "2021"
+description = "Clip manager logic that does not depend on the UI or on Tauri"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+rusqlite = { version = "0.37", features = ["bundled"] }
+notify = "8.2.2"
+tungstenite = { version = "0.30.0", default-features = false, features = ["handshake"] }
+sha2 = "0.11.1"
+base64 = "0.23.1"
+
+[target."cfg(windows)".dependencies]
+windows-sys = { version = "0.61.2", features = ["Win32_Foundation", "Win32_UI_WindowsAndMessaging", "Win32_System_Threading", "Win32_Media_Audio"] }
