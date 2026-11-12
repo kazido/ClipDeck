@@ -134,6 +134,7 @@ pub fn run() {
             commands::library::list_tags,
             commands::library::list_tag_infos,
             commands::library::set_tag_color,
+            commands::library::create_tag,
             commands::library::rename_tag,
             commands::library::delete_tag,
             commands::library::clip_keyframes,

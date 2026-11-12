@@ -572,13 +572,21 @@ impl Library {
                 params![id, tag],
             )?;
         }
-        // Tags nobody uses any more disappear from the lists.
-        tx.execute("DELETE FROM tags WHERE id NOT IN (SELECT tag_id FROM clip_tags)", [])?;
         tx.commit()?;
         Ok(())
     }
 
-    /// Every tag in use, sorted.
+    /// Make a tag that no clip has yet. It stays until it is deleted. An existing tag is left alone.
+    pub fn create_tag(&self, name: &str) -> Result<()> {
+        let name = name.trim();
+        if name.is_empty() {
+            return Ok(());
+        }
+        self.conn().execute("INSERT OR IGNORE INTO tags (name) VALUES (?1)", [name])?;
+        Ok(())
+    }
+
+    /// Every tag, sorted (including ones no clip uses).
     pub fn tags(&self) -> Result<Vec<String>> {
         let conn = self.conn();
         let mut stmt = conn.prepare("SELECT name FROM tags ORDER BY name COLLATE NOCASE")?;

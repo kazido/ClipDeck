@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deleteTag, errorMessage, renameTag, setTagColor } from "./api";
+import { createTag, deleteTag, errorMessage, renameTag, setTagColor } from "./api";
 import { TAG_COLORS, tagStyle, useTagColors } from "./TagColors";
 
 /** A window listing every tag, to color, rename or delete them. */
@@ -24,6 +24,7 @@ export function TagManager({
   const [name, setName] = useState("");
   const [asking, setAsking] = useState<string | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
+  const [fresh, setFresh] = useState("");
 
   const changed = () => {
     tags.reload();
@@ -44,7 +45,21 @@ export function TagManager({
       <div className="modal tag-manager" onMouseDown={(e) => e.stopPropagation()} onKeyDown={(e) => e.key === "Escape" && onClose()}>
         <h2>Manage tags</h2>
         <p className="muted small">Give tags a color, rename them, or delete the ones you no longer use.</p>
-        {tags.infos.length === 0 && <p className="muted">No tags yet. Add one to a clip and it will show up here.</p>}
+        <div className="tag-create">
+          <input
+            value={fresh}
+            onChange={(e) => setFresh(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && fresh.trim()) run(async () => { await createTag(fresh); setFresh(""); });
+            }}
+            placeholder="New tag name"
+            aria-label="New tag name"
+          />
+          <button disabled={!fresh.trim()} onClick={() => run(async () => { await createTag(fresh); setFresh(""); })}>
+            Create tag
+          </button>
+        </div>
+        {tags.infos.length === 0 && <p className="muted">No tags yet. Create one above, or add one to a clip.</p>}
         <ul className="tag-list">
           {tags.infos.map((t) => (
             <li key={t.name}>

@@ -636,6 +636,12 @@ pub fn list_tag_infos(state: State<'_, AppState>) -> CommandResult<Vec<clipdeck_
     state.library.tag_infos().map_err(|e| e.to_string())
 }
 
+/// Make a tag without putting it on any clip.
+#[tauri::command]
+pub fn create_tag(state: State<'_, AppState>, name: String) -> CommandResult<()> {
+    state.library.create_tag(&name).map_err(|e| e.to_string())
+}
+
 #[tauri::command]
 pub fn set_tag_color(state: State<'_, AppState>, name: String, color: Option<String>) -> CommandResult<()> {
     state.library.set_tag_color(&name, color.as_deref()).map_err(|e| e.to_string())

@@ -136,6 +136,7 @@ export interface TagInfo {
   color: string | null;
   clips: number;
 }
+export const createTag = (name: string) => invoke<void>("create_tag", { name });
 export const listTagInfos = () => invoke<TagInfo[]>("list_tag_infos");
 export const setTagColor = (name: string, color: string | null) => invoke<void>("set_tag_color", { name, color });
 export const renameTag = (old: string, newName: string) => invoke<void>("rename_tag", { old, new: newName });

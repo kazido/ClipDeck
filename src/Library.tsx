@@ -7,7 +7,7 @@ import * as mpv from "./mpv";
 import { ConfirmDelete, GameDialog, SelectionBar, TagDialog } from "./BulkActions";
 import { AddClipsDialog } from "./MoveDialogs";
 import { FilterMenu, StatusChip } from "./FilterMenu";
-import { errorMessage, fileUrl, copyClipFile, copyClipFiles, deleteClips, listGames, listTags, moveClips, pickFolder, renameClip, revealInFolder, setClipGame, setClipTags, setFavorite, type Clip, type ClipQuery, type Folder } from "./api";
+import { errorMessage, fileUrl, copyClipFile, copyClipFiles, deleteClips, listGames, listTagInfos, moveClips, pickFolder, renameClip, revealInFolder, setClipGame, setClipTags, setFavorite, type Clip, type ClipQuery, type Folder } from "./api";
 import { gameColor, formatBytes, formatDate, formatDuration, formatFps } from "./format";
 
 const MIN_CARD_WIDTH = 260;
@@ -125,7 +125,7 @@ export function Library(props: Props) {
   const [tags, setTags] = useState<string[]>([]);
   useEffect(() => {
     listGames().then(setGames).catch(() => {});
-    listTags().then(setTags).catch(() => {});
+    listTagInfos().then((all) => setTags(all.filter((t) => t.clips > 0).map((t) => t.name))).catch(() => {});
   }, [clips]);
   const sections = useMemo(
     () => buildSections(folders, clips, filters),

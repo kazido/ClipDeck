@@ -194,6 +194,13 @@ fn scan_and_query() {
     };
     assert_eq!(found("clutc"), 1);
     library.set_tags(first, &["clutch".into()]).unwrap();
+    // A tag stays after the last clip loses it, until it is deleted
+    assert_eq!(library.tags().unwrap(), ["clutch", "Funny"]);
+    library.create_tag("  Solo ").unwrap();
+    library.create_tag("solo").unwrap();
+    assert_eq!(library.tags().unwrap(), ["clutch", "Funny", "Solo"]);
+    library.delete_tag("Funny").unwrap();
+    library.delete_tag("Solo").unwrap();
     assert_eq!(library.tags().unwrap(), ["clutch"]);
     let remaining = library.cleanup_remaining().unwrap();
     assert!(remaining >= 1);
@@ -247,7 +254,7 @@ fn scan_and_query() {
     library.set_tags(first, &["Alpha".into(), "Beta".into()]).unwrap();
     library.set_tag_color("Alpha", Some("#ff6b6b")).unwrap();
     let infos = library.tag_infos().unwrap();
-    assert_eq!(infos.iter().map(|t| (t.name.as_str(), t.clips)).collect::<Vec<_>>(), [("Alpha", 1), ("Beta", 1)]);
+    assert_eq!(infos.iter().map(|t| (t.name.as_str(), t.clips)).collect::<Vec<_>>(), [("Alpha", 1), ("Beta", 1), ("clutch", 0)]);
     assert_eq!(infos[0].color.as_deref(), Some("#ff6b6b"));
     library.rename_tag("Beta", "Gamma").unwrap();
     assert_eq!(library.get(first).unwrap().unwrap().tags, ["Alpha", "Gamma"]);

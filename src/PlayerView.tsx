@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useRef, useState } from "react";
-import { clipDetails, clipFilmstrip, clipKeyframes, copyClipFile, deleteClips, errorMessage, revealInFolder, setClipNotes, type Clip, type Filmstrip } from "./api";
+import { clipDetails, clipFilmstrip, clipKeyframes, copyClipFile, deleteClips, errorMessage, revealInFolder, createTag, setClipNotes, type Clip, type Filmstrip } from "./api";
 import { useNotice } from "./Notice";
 import { ConfirmDelete } from "./BulkActions";
 import { BigFrame } from "./FramePreview";
@@ -45,6 +45,18 @@ export function PlayerView({ clip, onChange, onPrev, onNext, onExported, onOpenC
   const [scrubTime, setScrubTime] = useState<number | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
   const [showDetails, setShowDetails] = useState(false);
+  const [newTag, setNewTag] = useState("");
+  const makeTag = () => {
+    const name = newTag.trim();
+    if (!name) return;
+    createTag(name)
+      .then(() => {
+        setNewTag("");
+        window.dispatchEvent(new Event("tags-changed"));
+        notify(`Tag "${name}" created. Add it to a clip with + Tag.`);
+      })
+      .catch((e) => notify(errorMessage(e), "bad"));
+  };
   const [trim, setTrim] = useState<TrimState | null>(null);
   const [shareOpen, setShareOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -302,7 +314,8 @@ export function PlayerView({ clip, onChange, onPrev, onNext, onExported, onOpenC
   keys.current = (e) => {
     const typing =
       e.target instanceof HTMLSelectElement ||
-      (e.target instanceof HTMLInputElement && e.target.type === "text");
+      e.target instanceof HTMLTextAreaElement ||
+      (e.target instanceof HTMLInputElement && e.target.type !== "range" && e.target.type !== "checkbox");
     // Ctrl+C copies the clip itself, unless some text is selected to copy.
     if (!typing && e.ctrlKey && !e.altKey && !e.metaKey && e.key.toLowerCase() === "c" && !window.getSelection()?.toString()) {
       copyClipFile(clip.id)
@@ -411,6 +424,21 @@ export function PlayerView({ clip, onChange, onPrev, onNext, onExported, onOpenC
                   >
                     Manage tags…
                   </button>
+                  <div className="tag-create">
+                    <input
+                      value={newTag}
+                      onChange={(e) => setNewTag(e.target.value)}
+                      onKeyDown={(e) => {
+                        e.stopPropagation();
+                        if (e.key === "Enter") makeTag();
+                      }}
+                      placeholder="New tag name"
+                      aria-label="New tag name"
+                    />
+                    <button disabled={!newTag.trim()} onClick={makeTag}>
+                      Create tag
+                    </button>
+                  </div>
                 </aside>
               </>
             )}

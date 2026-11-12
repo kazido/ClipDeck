@@ -1080,3 +1080,6 @@ body.dragging-clips, body.dragging-clips * { cursor: grabbing !important; user-s
 :root[data-theme="abyss"] .fx-gradient::after { background: radial-gradient(35% 60% at 70% 20%, rgb(150 245 245 / 0.12), transparent 70%); }
 :root[data-motion="off"] .fx-gradient::before, :root[data-motion="off"] .fx-gradient::after { animation: none; }
 .tour-spot.none { border-radius: 0; box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.62); }
+
+.tag-create { display: flex; gap: 8px; margin: 10px 0; }
+.tag-create input { flex: 1; min-width: 0; }
