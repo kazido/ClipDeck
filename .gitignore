@@ -32,3 +32,4 @@ src-tauri/lib
 
 # FFmpeg for the installer (downloaded by setup-ffmpeg)
 src-tauri/bin/*.exe
+src-tauri/bin/*.dll

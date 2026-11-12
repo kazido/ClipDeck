@@ -274,6 +274,8 @@ pub struct KnownFile {
     pub size_bytes: u64,
     pub file_mtime_ms: i64,
     pub status: ClipStatus,
+    /// Whether a thumbnail was made for it.
+    pub has_thumb: bool,
 }
 
 impl Library {
@@ -899,7 +901,7 @@ impl Library {
     pub fn known_files(&self) -> Result<HashMap<String, KnownFile>> {
         let conn = self.conn();
         let mut stmt =
-            conn.prepare("SELECT path, id, size_bytes, file_mtime_ms, status FROM clips")?;
+            conn.prepare("SELECT path, id, size_bytes, file_mtime_ms, status, thumb_path IS NOT NULL FROM clips")?;
         let rows = stmt.query_map([], |row| {
             Ok((
                 row.get::<_, String>(0)?,
@@ -908,6 +910,7 @@ impl Library {
                     size_bytes: row.get(2)?,
                     file_mtime_ms: row.get(3)?,
                     status: ClipStatus::parse(&row.get::<_, String>(4)?),
+                    has_thumb: row.get(5)?,
                 },
             ))
         })?;

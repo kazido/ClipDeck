@@ -72,6 +72,8 @@ pub fn scan(
         let stamp = FileStamp::of(&meta);
         let unchanged = known.get(&key).is_some_and(|k| {
             k.status == ClipStatus::Ready
+                // A clip whose thumbnail failed is tried again, for example after FFmpeg is updated.
+                && k.has_thumb
                 && k.size_bytes == stamp.size_bytes
                 && k.file_mtime_ms == stamp.mtime_ms
         });
