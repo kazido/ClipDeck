@@ -9,7 +9,7 @@ no tracking.
 ## Download
 
 Get the latest installer from the **[Releases page](../../releases/latest)**. Download the
-`ClipDeck_..._x64-setup.exe` file and run it.
+`ClipDeck-setup.exe` file and run it.
 
 Windows may say **"Windows protected your PC"** because the installer isn't signed yet. Click
 **More info**, then **Run anyway**.
