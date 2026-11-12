@@ -529,7 +529,7 @@ dependencies = [
 
 [[package]]
 name = "clipdeck"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "clipdeck-core",
  "serde",
@@ -546,7 +546,7 @@ dependencies = [
 
 [[package]]
 name = "clipdeck-core"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "base64 0.23.1",
  "notify",

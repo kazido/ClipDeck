@@ -1,6 +1,6 @@
 [package]
 name = "clipdeck"
-version = "0.1.0"
+version = "1.0.0"
 description = "Local clip manager for OBS replay clips"
 authors = ["Bryson"]
 edition = "2024"

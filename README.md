@@ -4,7 +4,7 @@ A clip manager for your OBS replay clips, in the style of Medal. It keeps your g
 sorted by game, and easy to watch, trim and share. Everything stays on your PC: no account, no cloud,
 no tracking.
 
-> Early version (0.1). It works well, but expect rough edges. Feedback is welcome.
+> Version 1.0. Bug reports and ideas are welcome: open an [issue](../../issues).
 
 ## Download
 
